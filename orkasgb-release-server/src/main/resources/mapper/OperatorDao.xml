@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http#{//mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.orkasgb.orkasgbserver.dao.sys.OperatorDao">
+    <sql id="SQL_COLUMN">
+        operatorNo, departmentNo, operatorETime, operatorImg, operatorLoginId,
+        operatorName, operatorPwd, operatorSTime, operatorSex, operatorTel,
+        operatorText, roleNo, vaild
+    </sql>
+    <insert id="addOperator" parameterType="com.orkasgb.orkasgbserver.entity.OperatorEntity">
+        insert into operator (
+        operatorNo,
+        departmentNo,
+        operatorETime,
+        operatorImg,
+        operatorLoginId,
+        operatorName,
+        operatorPwd,
+        operatorSTime,
+        operatorSex,
+        operatorTel,
+        operatorText,
+        roleNo,
+        vaild,
+        createTime)
+        values (
+        #{operatorNo},
+        #{departmentNo},
+        #{operatorETime},
+        #{operatorImg},
+        #{operatorLoginId},
+        #{operatorName},
+        #{operatorPwd},
+        #{operatorSTime},
+        #{operatorSex},
+        #{operatorTel},
+        #{operatorText},
+        #{roleNo},
+        #{vaild},
+        DATE_FORMAT(Now(),'%Y-%m-%d %H:%i:%S'))
+    </insert>
+    <update id="updateOperator" parameterType="com.orkasgb.orkasgbserver.entity.OperatorEntity">
+        update operator set
+        departmentNo = #{departmentNo, jdbcType=VARCHAR},
+        operatorETime = #{operatorETime, jdbcType=VARCHAR},
+        operatorImg = #{operatorImg, jdbcType=VARCHAR},
+        operatorName = #{operatorName, jdbcType=VARCHAR},
+        operatorSTime = #{operatorSTime, jdbcType=VARCHAR},
+        operatorSex = #{operatorSex, jdbcType=VARCHAR},
+        operatorTel = #{operatorTel, jdbcType=VARCHAR},
+        operatorText = #{operatorText, jdbcType=VARCHAR},
+        roleNo = #{roleNo, jdbcType=VARCHAR},
+        vaild = #{vaild, jdbcType=VARCHAR}
+        where operatorNo = #{operatorNo, jdbcType=VARCHAR}
+    </update>
+    <delete id="deleteOperator" parameterType="com.orkasgb.orkasgbserver.entity.OperatorEntity">
+        delete from operator where operatorNo = #{operatorNo, jdbcType=VARCHAR}
+    </delete>
+
+    <select id="getOperatorList" parameterType="com.orkasgb.orkasgbserver.entity.OperatorEntity"
+            resultType="com.orkasgb.orkasgbserver.entity.OperatorEntity">
+        select
+        <include refid="SQL_COLUMN"/>
+        , (select ro.roleName from role ro where ro.roleNo = op.roleNo) as roleName
+        , (select de.departmentName from department de where de.departmentNo = op.departmentNo) as departmentName
+        from operator op
+        <where>
+            <if test="operatorNo != null and operatorNo != ''">
+                and operatorNo = #{operatorNo, jdbcType=VARCHAR}
+            </if>
+            <if test="operatorName != null and operatorName != ''">
+                and operatorName like concat('%', #{operatorName, jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="vaild != null and vaild != ''">
+                and vaild = #{vaild, jdbcType=VARCHAR}
+            </if>
+            <if test="startTime != null and startTime != '' and endTime != null and endTime != ''">
+                and createTime between #{startTime, jdbcType=VARCHAR} and #{endTime, jdbcType=VARCHAR}
+            </if>
+            <if test="operatorLoginId != null and operatorLoginId != ''">
+                meanuLev = #{operatorLoginId, jdbcType=VARCHAR}
+            </if>
+            <if test="departmentNo != null and departmentNo != ''">
+                and departmentNo = #{departmentNo, jdbcType=VARCHAR}
+            </if>
+            <if test="roleNo != null and roleNo != ''">
+                and roleNo = #{roleNo, jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+</mapper>

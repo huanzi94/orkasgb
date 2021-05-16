@@ -1,0 +1,46 @@
+package com.orkasgb.orkasgbserver.server.sys;
+
+
+import cn.dev33.satoken.secure.SaSecureUtil;
+import com.orkasgb.orkasgbserver.dao.sys.OperatorDao;
+import com.orkasgb.orkasgbserver.entity.OperatorEntity;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.sql.SQLException;
+import java.util.List;
+
+@Service
+@Configurable
+public class OperatorService {
+
+    @Value("${security.publicKey}")
+    private String publicKey;
+
+    @Value("${security.privateKey}")
+    private String privateKey;
+
+    @Resource
+    OperatorDao operatorDao;
+
+    public void addOperator(OperatorEntity operatorEntity) throws DataAccessException {
+        String securityPwd = SaSecureUtil.rsaEncryptByPublic(publicKey, operatorEntity.getOperatorPwd());
+        operatorEntity.setOperatorPwd(securityPwd);
+        operatorDao.addOperator(operatorEntity);
+    }
+
+    public int deleteOperator(OperatorEntity operatorEntity) throws DataAccessException{
+        return operatorDao.deleteOperator(operatorEntity);
+    }
+
+    public List<OperatorEntity> getOperatorList(OperatorEntity operatorEntity) throws DataAccessException {
+        return operatorDao.getOperatorList(operatorEntity);
+    }
+
+    public void updateOperator(OperatorEntity operatorEntity) throws DataAccessException {
+        operatorDao.updateOperator(operatorEntity);
+    }
+}

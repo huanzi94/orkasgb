@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.orkasgb.orkasgbserver.dao.sys.RightDao">
+    <sql id="SQL_COLUMN">
+        rightNo, meanuNo, operatorNo, rightDesc, rightETime, createTime,
+        rightSTime, rightText, vaild, disabled
+    </sql>
+    <insert id="addRight" parameterType="List">
+        insert into operatorRight (
+        rightNo,
+        meanuNo,
+        operatorNo,
+        rightDesc,
+        rightETime,
+        createTime,
+        rightSTime,
+        rightText,
+        vaild)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.rightNo}, #{item.meanuNo}, #{item.operatorNo}, #{item.rightDesc}, #{item.rightETime},
+            #{item.createTime},
+            #{item.rightSTime}, #{item.rightText}, #{item.vaild})
+        </foreach>
+    </insert>
+    <delete id="deleteRight" parameterType="com.orkasgb.orkasgbserver.entity.RightEntity">
+        delete from
+        operatorRight where rightNo = #{rightNo}
+    </delete>
+
+    <select id="getRightList" resultType="com.orkasgb.orkasgbserver.entity.RightEntity">
+        select
+        <include refid="SQL_COLUMN"></include>,
+        (select meanuUrl from meanu me where me.meanuNo = orr.meanuNo) as meanuUrl
+        from
+        operatorRight orr
+        <where>
+            <if test="operatorNo != null and operatorNo != ''">
+                orr.operatorNo = #{operatorNo}
+            </if>
+        </where>
+    </select>
+    <select id="getRightByNo" resultType="com.orkasgb.orkasgbserver.entity.RightEntity"
+            parameterType="com.orkasgb.orkasgbserver.entity.RightEntity">
+        select
+        <include refid="SQL_COLUMN"></include>
+        from
+        operatorRight where rightNo = #{rightNo}
+    </select>
+</mapper>

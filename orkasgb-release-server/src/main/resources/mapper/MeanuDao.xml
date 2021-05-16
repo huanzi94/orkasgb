@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.orkasgb.orkasgbserver.dao.sys.MeanuDao">
+    <sql id="SQL_COLUMN">
+        createTime,meanuDesc,meanuIcon,meanuLev,meanuName,meanuNo,
+        meanuParentNo,meanuText,meanuUrl,vaild,name,path,component
+    </sql>
+    <insert id="addMean" parameterType="com.orkasgb.orkasgbserver.entity.MeanuEntity">
+        insert into meanu (
+        meanuNo,
+        createTime,
+        meanuDesc,
+        meanuIcon,
+        meanuLev,
+        meanuName,
+        meanuParentNo,
+        meanuText,
+        meanuUrl,
+        vaild,
+        name,
+        path,
+        component)
+        values (
+        #{meanuNo, jdbcType=VARCHAR},
+        #{createTime, jdbcType=VARCHAR},
+        #{meanuDesc, jdbcType=VARCHAR},
+        #{meanuIcon, jdbcType=VARCHAR},
+        #{meanuLev, jdbcType=VARCHAR},
+        #{meanuName, jdbcType=VARCHAR},
+        #{meanuParentNo, jdbcType=VARCHAR},
+        #{meanuText, jdbcType=VARCHAR},
+        #{meanuUrl, jdbcType=VARCHAR},
+        #{vaild, jdbcType=VARCHAR},
+        #{name, jdbcType=VARCHAR},
+        #{path, jdbcType=VARCHAR},
+        #{component, jdbcType=VARCHAR}
+        )
+    </insert>
+    <update id="updateMean" parameterType="com.orkasgb.orkasgbserver.entity.MeanuEntity">
+        update meanu
+        <set>
+            <if test="createTime != null or createTime!= ''">
+                createTime = #{createTime, jdbcType=VARCHAR},
+            </if>
+            <if test="meanuDesc != null or meanuDesc!= ''">
+                meanuDesc = #{meanuDesc, jdbcType=VARCHAR},
+            </if>
+            <if test="meanuIcon != null or meanuIcon!= ''">
+                meanuIcon = #{meanuIcon, jdbcType=VARCHAR},
+            </if>
+            <if test="meanuLev != null or meanuLev != ''">
+                meanuLev = #{meanuLev, jdbcType=VARCHAR},
+            </if>
+            <if test="meanuName != null or meanuName!= ''">
+                meanuName = #{meanuName, jdbcType=VARCHAR},
+            </if>
+            <if test="meanuParentNo != null or meanuParentNo!= ''">
+                meanuParentNo = #{meanuParentNo, jdbcType=VARCHAR},
+            </if>
+            <if test="meanuUrl != null or meanuUrl!= ''">
+                meanuUrl = #{meanuUrl, jdbcType=VARCHAR},
+            </if>
+            <if test="vaild != null or vaild!= ''">
+                vaild = #{vaild, jdbcType=VARCHAR},
+            </if>
+            <if test="meanuIcon != null or meanuIcon!= ''">
+                meanuIcon = #{meanuIcon, jdbcType=VARCHAR},
+            </if>
+            <if test="path != null or path!= ''">
+                path = #{path, jdbcType=VARCHAR},
+            </if>
+            <if test="name != null or name!= ''">
+                name = #{name, jdbcType=VARCHAR},
+            </if>
+            <if test="component != null or component!= ''">
+                component = #{component, jdbcType=VARCHAR},
+            </if>
+        </set>
+        where meanuNo = #{meanuNo, jdbcType=VARCHAR}
+
+    </update>
+    <delete id="deleteMeanu" parameterType="com.orkasgb.orkasgbserver.entity.MeanuEntity">
+        delete from
+        meanu where meanuNo = #{meanuNo, jdbcType=VARCHAR}
+    </delete>
+
+    <select id="getMeanuByMeanNo"
+            resultType="com.orkasgb.orkasgbserver.entity.MeanuEntity"
+            parameterType="com.orkasgb.orkasgbserver.entity.MeanuEntity">
+        select
+        <include refid="SQL_COLUMN"></include>
+        ,(select meanuName from meanu ml where me.meanuNo = ml.meanuNo) as meanuParentName,
+        from
+        meanu where meanuNo = #{meanuNo, jdbcType=VARCHAR}
+    </select>
+    <select id="getMeanuList"
+            resultType="com.orkasgb.orkasgbserver.entity.MeanuEntity"
+            parameterType="com.orkasgb.orkasgbserver.entity.MeanuEntity">
+        select
+        <include refid="SQL_COLUMN"></include>
+        ,(select ml.meanuName from meanu ml where me.meanuNo = ml.meanuNo) as meanuParentName
+        from
+        meanu me
+        <where>
+            <if test="meanuNo != null and meanuNo != ''">
+                and meanuNo = #{meanuNo, jdbcType=VARCHAR}
+            </if>
+            <if test="meanuName != null and meanuName != ''">
+                and meanuName like concat('%', #{meanuName, jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="vaild != null and vaild != ''">
+                and vaild = #{vaild, jdbcType=VARCHAR}
+            </if>
+            <if test="startTime != null and startTime != '' and endTime != null and endTime != ''">
+                and createTime between #{startTime, jdbcType=VARCHAR} and #{endTime, jdbcType=VARCHAR}
+            </if>
+            <if test="meanuLev != null and meanuLev != ''">
+                meanuLev = #{meanuLev, jdbcType=VARCHAR}
+            </if>
+            <if test="meanuParentNo != null and meanuParentNo != ''">
+                and meanuParentNo = #{meanuParentNo, jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+    <select id="getMenuByOperator"
+            resultType="com.orkasgb.orkasgbserver.entity.MeanuEntity">
+        select
+        <include refid="SQL_COLUMN"></include>
+        ,(select meanuName from meanu ml where me.meanuNo = ml.meanuNo) as meanuParentName,
+        meanuNo as id,
+        meanuName as label,
+        (select ro.disabled from operatorRight ro where me.meanuNo = ro.meanuNo) as disabled
+        from
+        meanu me
+        where me.meanuNo in (select r.meanuNo
+        from operatorRight r
+        where me.meanuNo = r.meanuNo
+        and r.operatorNo = #{operatorEntity.operatorNo, jdbcType=VARCHAR})
+        <if test="meanuLev != null and meanuLev != ''">
+            and meanuLev = #{meanuLev, jdbcType=VARCHAR}
+        </if>
+    </select>
+</mapper>

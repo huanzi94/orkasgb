@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.orkasgb.orkasgbserver.dao.sys.DepartmentDao">
+
+    <insert id="addDepartment" parameterType="com.orkasgb.orkasgbserver.entity.DepartmentEntity">
+        insert into department (
+        departmentNo,
+        departmentDesc,
+        departmentETime,
+        departmentName,
+        departmentSTime,
+        departmentText,
+        vaild)
+        values (
+        #{departmentNo},
+        #{departmentDesc},
+        #{departmentETime},
+        #{departmentName},
+        #{departmentSTime},
+        #{departmentText},
+        #{vaild}
+    </insert>
+    <delete id="deleteDepartment" parameterType="com.orkasgb.orkasgbserver.entity.DepartmentEntity">
+        delete from department where departmentNo = #{departmentNo}
+    </delete>
+    <select id="getDepartment" resultType="com.orkasgb.orkasgbserver.entity.DepartmentEntity"
+            parameterType="com.orkasgb.orkasgbserver.entity.DepartmentEntity">
+        select departmentNo,
+        departmentDesc,
+        departmentETime,
+        departmentName,
+        departmentSTime,
+        departmentText,
+        vaild from department
+        <where>
+            <if test="departmentNo != null and departmentNo != ''">
+                departmentNo = #{departmentNo}
+            </if>
+        </where>
+    </select>
+</mapper>
