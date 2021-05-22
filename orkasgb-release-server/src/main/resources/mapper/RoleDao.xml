@@ -5,13 +5,13 @@
     <insert id="addRole" parameterType="com.orkasgb.orkasgbserver.entity.RoleEntity">
         insert into role (
         roleNo,
-        departmentNo,
+        operatorNo,
         roleName,
         roleType,
         vaild)
         values (
         #{roleNo},
-        #{departmentNo},
+        #{operatorNo},
         #{roleName},
         #{roleType},
         #{vaild}
@@ -23,7 +23,7 @@
             parameterType="com.orkasgb.orkasgbserver.entity.RoleEntity"
             resultType="com.orkasgb.orkasgbserver.entity.RoleEntity">
         select roleNo,
-        departmentNo,
+        operatorNo,
         roleName,
         roleType,
         vaild from role
@@ -31,15 +31,9 @@
             <if test="roleNo != null and roleNo != ''">
                 roleNo = #{roleNo}
             </if>
+            <if test="operatorNo != null and operatorNo != ''">
+                operatorNo = #{operatorNo}
+            </if>
         </where>
-    </select>
-    <select id="getRoles"
-            parameterType="java.lang.String"
-            resultType="com.orkasgb.orkasgbserver.entity.RoleEntity">
-        select roleNo,
-        departmentNo,
-        roleName,
-        roleType,
-        vaild from role where operatorNo = #{operatorNo}
     </select>
 </mapper>

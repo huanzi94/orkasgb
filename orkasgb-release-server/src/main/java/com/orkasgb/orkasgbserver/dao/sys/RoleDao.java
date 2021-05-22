@@ -13,6 +13,4 @@ public interface RoleDao {
     int deleteRole(RoleEntity roleEntity);
 
     List<RoleEntity> getRoleList(RoleEntity roleEntity);
-
-    List<RoleEntity> getRoles(String operatorNo);
 }

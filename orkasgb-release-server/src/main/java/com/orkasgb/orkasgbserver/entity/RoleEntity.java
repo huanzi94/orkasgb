@@ -29,12 +29,13 @@ public class RoleEntity implements Serializable {
     @TableField("roleType")
     private String roleType;
 
-    @TableField("departmentNo")
-    private String departmentNo;
+    @TableField("operatorNo")
+    private String operatorNo;
 
     /**
      * 有效标志@0无效1有效
      */
+    @TableField("vaild")
     private String vaild;
 
     /**

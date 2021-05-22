@@ -30,7 +30,9 @@ public class LoginServer {
     public OperatorEntity loginValidate(OperatorEntity operatorEntity) {
         String loginId = operatorEntity.getOperatorLoginId();
         OperatorEntity operator = loginDao.loginValidate(operatorEntity);
-        List<RoleEntity> roleEntityList = roleDao.getRoles(operator.getOperatorNo());
+        RoleEntity roleEntity = new RoleEntity();
+        roleEntity.setOperatorNo(operator.getOperatorNo());
+        List<RoleEntity> roleEntityList = roleDao.getRoleList(roleEntity);
         securityHandle.setRoleList(roleEntityList, loginId);
 
         RightEntity rightEntity = new RightEntity();

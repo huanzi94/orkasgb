@@ -6,7 +6,6 @@ import com.orkasgb.orkasgbapp.vo.ResultVo;
 import com.orkasgb.orkasgbserver.entity.OperatorEntity;
 import com.orkasgb.orkasgbserver.entity.RoleEntity;
 import com.orkasgb.orkasgbserver.handlerInterceptor.AuthorityAuthentication;
-import com.orkasgb.orkasgbserver.handlerInterceptor.AuthorityMenuRight;
 import com.orkasgb.orkasgbserver.server.common.CommonServer;
 import com.orkasgb.orkasgbserver.server.sys.RoleService;
 import com.orkasgb.orkasgbweb.controller.BaseController;

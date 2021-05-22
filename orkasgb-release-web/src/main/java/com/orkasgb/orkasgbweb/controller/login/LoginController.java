@@ -40,7 +40,7 @@ public class LoginController extends BaseController {
             return resultVo;
         }
         // 保存登录信息
-        StpUtil.setLoginId(operator.getOperatorLoginId(), Boolean.valueOf(this.getParameter("rememberMe")));
+        StpUtil.setLoginId(operator.getOperatorLoginId(), Boolean.parseBoolean(this.getParameter("rememberMe")));
         this.getResponse().setHeader(StpUtil.getTokenName(), StpUtil.getTokenValue());
         this.getResponse().setHeader("Access-Control-Expose-Headers", StpUtil.getTokenName());
         resultVo.setData(operator);

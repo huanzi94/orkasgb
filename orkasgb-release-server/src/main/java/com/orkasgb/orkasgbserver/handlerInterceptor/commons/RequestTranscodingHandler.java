@@ -15,6 +15,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
+import java.util.Objects;
 
 @Aspect
 @Order
@@ -27,7 +28,7 @@ public class RequestTranscodingHandler {
     @Around("@annotation(org.springframework.web.bind.annotation.RequestMapping)")
     public Object process(ProceedingJoinPoint point) throws Throwable {
         ResultVo resultVo = new ResultVo<>(CodeEnum.FAIL.getStatus(), CodeEnum.FAIL.getCode());
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
 
         String requestURI = request.getRequestURI();
         if (!StringUtils.containsIgnoreCase(requestURI, "login/loginValidate")

@@ -6,8 +6,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
 
 import java.io.Serializable;
 
@@ -82,19 +80,19 @@ public class OperatorEntity extends BaseEntity implements Serializable {
     /**
      * 建时间
      */
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private String createTime;
 
     /**
      * 开始时间
      */
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private String operatorSTime;
 
     /**
      * 结束时间
      */
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private String operatorETime;
 
     /**
@@ -118,4 +116,9 @@ public class OperatorEntity extends BaseEntity implements Serializable {
      * 角色名称
      */
     private String roleName;
+
+    /**
+     * 用户新密码
+     */
+    private String newPassword;
 }

@@ -39,17 +39,39 @@
         DATE_FORMAT(Now(),'%Y-%m-%d %H:%i:%S'))
     </insert>
     <update id="updateOperator" parameterType="com.orkasgb.orkasgbserver.entity.OperatorEntity">
-        update operator set
-        departmentNo = #{departmentNo, jdbcType=VARCHAR},
-        operatorETime = #{operatorETime, jdbcType=VARCHAR},
-        operatorImg = #{operatorImg, jdbcType=VARCHAR},
-        operatorName = #{operatorName, jdbcType=VARCHAR},
-        operatorSTime = #{operatorSTime, jdbcType=VARCHAR},
-        operatorSex = #{operatorSex, jdbcType=VARCHAR},
-        operatorTel = #{operatorTel, jdbcType=VARCHAR},
-        operatorText = #{operatorText, jdbcType=VARCHAR},
-        roleNo = #{roleNo, jdbcType=VARCHAR},
-        vaild = #{vaild, jdbcType=VARCHAR}
+        update operator
+        <set>
+            <if test="operatorPwd != null and operatorPwd != ''">
+                operatorPwd = #{operatorPwd, jdbcType=VARCHAR},
+            </if>
+            <if test="departmentNo != null and departmentNo != ''">
+                departmentNo = #{departmentNo, jdbcType=VARCHAR},
+            </if>
+            <if test="operatorETime != null and operatorETime != ''">
+                operatorETime = #{operatorETime, jdbcType=VARCHAR},
+            </if>
+            <if test="operatorImg != null and operatorImg != ''">
+                operatorImg = #{operatorImg, jdbcType=VARCHAR},
+            </if>
+            <if test="operatorName != null and operatorName != ''">
+                operatorName = #{operatorName, jdbcType=VARCHAR},
+            </if>
+            <if test="operatorSTime != null and operatorSTime != ''">
+                operatorSTime = #{operatorSTime, jdbcType=VARCHAR},
+            </if>
+            <if test="operatorSex != null and operatorSex != ''">
+                operatorSex = #{operatorSex, jdbcType=VARCHAR},
+            </if>
+            <if test="operatorTel != null and operatorTel != ''">
+                operatorTel = #{operatorTel, jdbcType=VARCHAR},
+            </if>
+            <if test="roleNo != null and roleNo != ''">
+                roleNo = #{roleNo, jdbcType=VARCHAR},
+            </if>
+            <if test="vaild != null and vaild != ''">
+                vaild = #{vaild, jdbcType=VARCHAR}
+            </if>
+        </set>
         where operatorNo = #{operatorNo, jdbcType=VARCHAR}
     </update>
     <delete id="deleteOperator" parameterType="com.orkasgb.orkasgbserver.entity.OperatorEntity">
