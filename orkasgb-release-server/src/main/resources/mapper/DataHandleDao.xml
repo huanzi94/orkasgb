@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.orkasgb.orkasgbserver.dao.datahandle.DataHandleDao">
+    <insert id="insertHandleData" parameterType="com.orkasgb.orkasgbserver.entity.CurveData">
+        insert into curvedata(dataType, dataName, value, time)
+        values
+        <foreach collection="list" item="item" separator=",">
+        (#{item.dataType}, #{item.dataName}, #{item.value}, #{item.time})
+        </foreach>
+    </insert>
+    <delete id="deleteHandleData" parameterType="com.orkasgb.orkasgbserver.entity.CurveData">
+        delete from role where roleNo = #{roleNo}
+    </delete>
+    <select id="getCurveDataList" resultType="com.orkasgb.orkasgbserver.entity.CurveData">
+        select dataType, dataName, value, time from curvedata
+        where dataType = #{dataType}
+        and time between date_sub(now(),interval 1 Hour) and now()
+    </select>
+</mapper>
