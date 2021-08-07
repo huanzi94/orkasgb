@@ -4,11 +4,13 @@ package com.orkasgb.orkasgbweb.controller.login;
 import cn.dev33.satoken.stp.StpUtil;
 import com.orkasgb.orkasgbapp.commcode.CodeEnum;
 import com.orkasgb.orkasgbapp.exception.GlobalException;
+import com.orkasgb.orkasgbapp.vaildategroups.Login;
 import com.orkasgb.orkasgbapp.vo.ResultVo;
 import com.orkasgb.orkasgbserver.entity.OperatorEntity;
 import com.orkasgb.orkasgbserver.server.login.LoginServer;
 import com.orkasgb.orkasgbweb.controller.BaseController;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -30,7 +32,7 @@ public class LoginController extends BaseController {
      */
     @RequestMapping(value = "/loginValidate", method = RequestMethod.POST, consumes = "application/json; charset=UTF-8",
             produces = "application/json")
-    public ResultVo loginValidate(@RequestBody OperatorEntity operatorEntity) throws GlobalException {
+    public ResultVo loginValidate(@RequestBody @Validated(Login.class) OperatorEntity operatorEntity) throws GlobalException {
         ResultVo<OperatorEntity> resultVo = new ResultVo<>(CodeEnum.SUCCESS.getStatus(), CodeEnum.SUCCESS.getCode());
         OperatorEntity operator = loginServer.loginValidate(operatorEntity);
         if (Objects.isNull(operator)) {

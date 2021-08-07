@@ -3,10 +3,14 @@ package com.orkasgb.orkasgbserver.entity;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.orkasgb.orkasgbapp.vaildategroups.Login;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -40,12 +44,18 @@ public class OperatorEntity extends BaseEntity implements Serializable {
      * 登陆账号
      */
     @TableField("operatorLoginId")
+    @NotNull(groups = Login.class, message = "not.null")
+    @NotBlank(groups = Login.class, message = "not.null")
+    @NotEmpty(groups = Login.class, message = "not.null")
     private String operatorLoginId;
 
     /**
      * 登陆密码
      */
     @TableField("operatorPwd")
+    @NotNull(groups = Login.class, message = "not.null")
+    @NotBlank(groups = Login.class, message = "not.null")
+    @NotEmpty(groups = Login.class, message = "not.null")
     private String operatorPwd;
 
     /**

@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -24,6 +27,9 @@ public class RoleEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "roleNo")
+    @NotNull(message = "not.null")
+    @NotBlank(message = "not.null")
+    @NotEmpty(message = "not.null")
     private String roleNo;
 
     @TableField("roleType")
