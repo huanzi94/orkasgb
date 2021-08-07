@@ -5,7 +5,7 @@
         insert into curvedata(dataType, dataName, value, time)
         values
         <foreach collection="list" item="item" separator=",">
-        (#{item.dataType}, #{item.dataName}, #{item.value}, #{item.time})
+            (#{item.dataType}, #{item.dataName}, #{item.value}, #{item.time})
         </foreach>
     </insert>
     <delete id="deleteHandleData" parameterType="com.orkasgb.orkasgbserver.entity.CurveData">
