@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 @Controller
 @CrossOrigin
@@ -22,7 +21,7 @@ public class CurveController extends BaseController {
 
     @RequestMapping(value = "/getCurveDataList", method = RequestMethod.POST, consumes = "application/json; charset=UTF-8",
             produces = "application/json")
-    public ResultVo<Object> getCurveDataList (@RequestBody CurveData curveData) {
+    public ResultVo<Object> getCurveDataList(@RequestBody CurveData curveData) {
         ResultVo<Object> resultVo = new ResultVo<>(CodeEnum.SUCCESS.getStatus(), CodeEnum.SUCCESS.getCode());
         Object curveDataList = dataHandleService.getCurveDataList(curveData);
         resultVo.setData(curveDataList);
